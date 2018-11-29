@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f8165623-8003-442c-9ee9-fae5a361acde" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BhavUtils/bhav_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/BhavUtils/bhav_db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_1994.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_1995.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_1996.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_1997.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_1998.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_1999.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_2000.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_2001.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_2002.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_2003.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_2004.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_2005.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_2006.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_2007.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_2008.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_2009.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_2010.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_2011.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_2012.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_2013.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_2014.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_2015.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_2016.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_2017.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mariadb.bhav/ibd.zip/bhavcopy_2018.ibd.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/user-interface.py" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-1737691041">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="2" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.open.time.29" value="1" />
+          <entry key="project.open.time.6" value="1" />
+          <entry key="project.opened" value="3" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="py" value="23" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Python" value="23" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="Python Console" value="102" />
+          <entry key="py" value="5503" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="Python" value="5605" />
+        </counts>
+      </usages-collector>
+    </session>
+    <session id="-1041670344">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.open.time.7" value="1" />
+          <entry key="project.opened" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="py" value="6" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Python" value="6" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="py" value="836" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="Python" value="836" />
+        </counts>
+      </usages-collector>
+    </session>
+    <session id="-2082623672">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="3" />
+          <entry key="project.open.time.0" value="2" />
+          <entry key="project.open.time.7" value="1" />
+          <entry key="project.opened" value="3" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="Python Console" value="88" />
+          <entry key="py" value="1028" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="Python" value="1116" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="py" value="6" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Python" value="6" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BhavUtils/bhav_db.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="287">
+              <caret line="182" column="52" selection-start-line="182" selection-start-column="52" selection-end-line="182" selection-end-column="52" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+                <marker date="1543475721171" expanded="true" signature="1290:1297" ph="..." />
+                <marker date="1543475721171" expanded="true" signature="1331:1340" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/user-interface.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="224">
+              <caret line="14" column="20" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
+              <folding>
+                <element signature="e#0#36#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/automation/Lib/site-packages/pymysql/err.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="433">
+              <caret line="108" selection-start-line="108" selection-end-line="108" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>bhavday</find>
+      <find>gl</find>
+      <find>recreat</find>
+      <find>h</find>
+      <find>data1</find>
+      <find>table_name</find>
+      <find>http</find>
+      <find>ext</find>
+      <find>_crea</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/BhavUtils/bhav_data_files.py" />
+        <option value="$PROJECT_DIR$/store_equity_data.py" />
+        <option value="$PROJECT_DIR$/store-nse-holidays.py" />
+        <option value="$PROJECT_DIR$/BhavUtils/start-mysql.py" />
+        <option value="$PROJECT_DIR$/pack-files-for-git.py" />
+        <option value="$PROJECT_DIR$/zip-db-files-for-git.py" />
+        <option value="$PROJECT_DIR$/ibd-zip-archival.py" />
+        <option value="$PROJECT_DIR$/BhavUtils/bhav_data_zip.py" />
+        <option value="$PROJECT_DIR$/BhavUtils/bhav-data-zip.py" />
+        <option value="$PROJECT_DIR$/bhav-db-git.py" />
+        <option value="$PROJECT_DIR$/BhavUtils/bhav_data_git.py" />
+        <option value="$PROJECT_DIR$/BhavUtils/bhav_db.py" />
+        <option value="$PROJECT_DIR$/user-interface.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="501" />
+    <option name="y" value="41" />
+    <option name="width" value="1036" />
+    <option name="height" value="733" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="nsebhav" type="b2602c69:ProjectViewProjectNode" />
+              <item name="nsebhav" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="nsebhav" type="b2602c69:ProjectViewProjectNode" />
+              <item name="nsebhav" type="462c0819:PsiDirectoryNode" />
+              <item name="BhavUtils" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings is-module-sdk="true">
+        <option name="myUseModuleSdk" value="true" />
+      </console-settings>
+    </option>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.what you want to do">
+    <configuration name="store bhav data" type="PythonConfigurationType" factoryName="Python">
+      <module name="automation" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\barraud\automation\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/store_equity_data.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="store nse holidays" type="PythonConfigurationType" factoryName="Python">
+      <module name="automation" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\barraud\automation\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/store-nse-holidays.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="what you want to do" type="PythonConfigurationType" factoryName="Python">
+      <module name="automation" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\barraud\automation\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/user-interface.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.what you want to do" />
+      <item itemvalue="Python.store bhav data" />
+      <item itemvalue="Python.store nse holidays" />
+    </list>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f8165623-8003-442c-9ee9-fae5a361acde" name="Default Changelist" comment="" />
+      <created>1542752513768</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1542752513768</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24904943" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32974428" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.31090176" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.22880216" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32974428" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/bhav-db-git.py</url>
+          <line>4</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/BhavUtils/bhav_data_git.py</url>
+          <line>33</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/BhavUtils/bhav_db.py</url>
+          <line>160</line>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>&quot;load data infile {} into table {};&quot;.format(file_zip_info.filename, table_name)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>bhavcopy_sql_zip</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>self._bhavcopy_tables</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>create_table_sql</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>zip_contents.filelist[0]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>zip_contents.filelist</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>'mariadb.bhav/data/bhavdata/{}'.format(ibd_file_name)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>&quot;drop tablespace bhavcopy_{}&quot;.format(year)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>zip_contents.filename.replace(&quot;.zip&quot;, &quot;&quot;)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$USER_HOME$/automation/Lib/site-packages/httplib2/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="1695" column="8" selection-start-line="1695" selection-start-column="8" selection-end-line="1695" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/automation/Lib/site-packages/bs4/element.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="472" column="46" selection-start-line="472" selection-start-column="38" selection-end-line="472" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BhavUtils/start-mysql.py" />
+    <entry file="file://$PROJECT_DIR$/pack-files-for-git.py" />
+    <entry file="file://$PROJECT_DIR$/zip-db-files-for-git.py" />
+    <entry file="file://$PROJECT_DIR$/ibd-zip-archival.py" />
+    <entry file="file://$PROJECT_DIR$/BhavUtils/bhav_data_zip.py" />
+    <entry file="file://$PROJECT_DIR$/BhavUtils/bhav-data-zip.py" />
+    <entry file="file://$PROJECT_DIR$/store-nse-holidays.py" />
+    <entry file="file://$PROJECT_DIR$/bhav-db-git.py" />
+    <entry file="file://$PROJECT_DIR$/BhavUtils/bhav_data_git.py" />
+    <entry file="file://$PROJECT_DIR$/store_equity_data.py" />
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/zipfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20464">
+          <caret line="1288" selection-start-line="1288" selection-end-line="1288" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BhavUtils/bhav_data_files.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="464">
+          <caret line="32" column="12" selection-start-line="32" selection-start-column="12" selection-end-line="32" selection-end-column="61" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/venv/Lib/site-packages/pymysql/err.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/automation/Lib/site-packages/pymysql/err.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="433">
+          <caret line="108" selection-start-line="108" selection-end-line="108" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BhavUtils/bhav_db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="182" column="52" selection-start-line="182" selection-start-column="52" selection-end-line="182" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <marker date="1543475721171" expanded="true" signature="1290:1297" ph="..." />
+            <marker date="1543475721171" expanded="true" signature="1331:1340" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user-interface.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="14" column="20" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
