@@ -7,8 +7,8 @@ import os
 
 
 def main():
-    bhav_db = BhavDB()
-    bhav_db.prepare_data_for_git()
+    bhav_db = BhavDB('mysql')
+    bhav_db.get_data_of_git()
 
 if __name__ == '__main__':
     main()
