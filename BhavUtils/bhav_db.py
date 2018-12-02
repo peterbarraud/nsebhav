@@ -37,7 +37,7 @@ class BhavDB:
         first_date = date(1994, 11, 3)
         return first_date
 
-
+    @property
     def last_saved_date(self) -> date:
         with self.__connection.cursor() as cursor:
             sql_statement = "SELECT max(table_name) first_year_table FROM information_schema.tables where table_name like 'bhavcopy_%';"
@@ -79,6 +79,7 @@ class BhavDB:
         create_table_sql += "timestamp date,"
         create_table_sql += "primary key(symbol, series, timestamp)"
         create_table_sql += ");"
+        print(create_table_sql)
         with self.__connection.cursor() as cursor:
             cursor.execute(create_table_sql)
 
@@ -94,22 +95,15 @@ class BhavDB:
         day = str(time_parts[0]).zfill(2)
         return year + "-" + month + "-" + day
 
-    def discard_tablespace(self, year):
-        with self.__connection.cursor() as cursor:
-            try:
-                cursor.execute("alter table bhavcopy_{} discard tablespace;".format(year))
-                self.__connection.commit()
-            except InternalError as int_err:
-                if str(int_err) == "(1932, \"Table 'bhavdata.bhavcopy_{}' doesn't exist in engine\")".format(year):
-                    raise BadDatabaseFilesError("Bad database files. The bhavdata database needs to be dropped and recreated. ")
 
-    def import_tablespace(self, year):
-        with self.__connection.cursor() as cursor:
-            cursor.execute("alter table bhavcopy_{} import tablespace;".format(year))
-
-    def recreate_bhavdata(self):
-        with self.__connection.cursor() as cursor:
-            cursor.execute("use mysql; drop database bhavdata; create database bhavdata; use bhavdata")
+    @property
+    def bhav_count_by_year(self):
+        for bhavcopy_table in self._bhavcopy_tables:
+            with self.__connection.cursor() as cursor:
+                cursor.execute("select count(*) bhavcount from {}".format(bhavcopy_table))
+                count_result = cursor.fetchone()
+                result = re.search("\d{4}", bhavcopy_table)
+                yield result.group(), count_result['bhavcount']
 
     def insert_bhav_row(self, row: dict, zip_file_name: str):
         bhavcopy_table = "bhavcopy_{}".format(row['TIMESTAMP'][-4:])
@@ -145,25 +139,59 @@ class BhavDB:
             except InternalError as interal_err:
                 self._log_err(row, interal_err, zip_file_name)
 
-    def get_last_saved_date(self):
-        with self.__connection.cursor() as cursor:
-            tables_sql = "SELECT table_name FROM information_schema.tables where table_name like 'bhavcopy_%';"
-            cursor.execute(tables_sql)
-            result = cursor.fetchall()
-            first_year = min([int(re.search('\d{4}$', x['table_name']).group()) for x in result])
-        return first_year
+    @staticmethod
+    def _extract_sql_to_bhavdata_dir(zip_file_name) -> ZipInfo:
+        bhavcopy_sql_zip = ZipFile(zip_file_name)
+        file_zip_info: ZipInfo = bhavcopy_sql_zip.filelist[0]
+        print(file_zip_info.filename)
+        bhavcopy_sql_zip.extract(file_zip_info.filename, "mariadb.bhav/data/bhavdata")
+        bhavcopy_sql_zip.close()
+        return file_zip_info
 
     def prepare_data_for_git(self):
         with self.__connection.cursor() as cursor:
+            bhavcopy_zip_dict = {re.search("(bhavcopy_\d{4})", bhavcopy_sql_zip_file).groups()[0] : bhavcopy_sql_zip_file for bhavcopy_sql_zip_file in glob.glob("bhavcopy.sql.zip/*.sql.zip")}
+            # let's create two temp year tables - one for pre-2011 and one for post (after total trades was added)
+            self._create_year_table(1000)
+            self._create_year_table(3000)   # of course, we're assuming this prog will not be used in year 3000 :)
             for bhavcopy_table in self._bhavcopy_tables:
                 print("Doing: {}".format(bhavcopy_table))
                 try:
-                    cursor.execute("select * into outfile '../../bhavcopy.sql.zip/{0}.sql' from {0};".format(bhavcopy_table))
-                    with ZipFile("bhavcopy.sql.zip/{0}.sql.zip".format(bhavcopy_table), 'w', ZIP_DEFLATED) as sql_zip:
-                        sql_zip.write("bhavcopy.sql.zip/{0}.sql".format(bhavcopy_table), "{}.sql".format(bhavcopy_table))
-                    os.remove("bhavcopy.sql.zip/{0}.sql".format(bhavcopy_table))
+                    # create a temp 1000 year table
+                    temp_year_table = None
+                    result = re.search("\d{4}", bhavcopy_table)
+                    if int(result.group()) >= 2011:
+                        temp_year_table = "bhavcopy_{}".format(3000)
+                    else:
+                        temp_year_table = "bhavcopy_{}".format(1000)
+                    bhavcopy_zip = bhavcopy_zip_dict.get(bhavcopy_table, None)
+                    make_zip = False
+                    if bhavcopy_zip:
+                        file_zip_info: ZipInfo = self._extract_sql_to_bhavdata_dir(bhavcopy_zip_dict[bhavcopy_table])
+                        cursor.execute("truncate table {};".format(temp_year_table))
+                        cursor.execute("load data infile '{}' into table {};".format(file_zip_info.filename, temp_year_table))
+                        cursor.execute("SELECT symbol, series, timestamp FROM " \
+                            "(SELECT symbol, series, timestamp FROM {} UNION ALL SELECT symbol, series, timestamp FROM {}) tbl " \
+                            "GROUP BY symbol, series, timestamp HAVING count(*) = 1 ORDER BY symbol, series, timestamp;".format(bhavcopy_table, temp_year_table))
+                        table_diff = cursor.fetchone()
+                        if table_diff:
+                            make_zip = True
+                    else:
+                        make_zip = True
+                    if make_zip:
+                        cursor.execute(
+                            "select * into outfile '../../bhavcopy.sql.zip/{0}.sql' from {0};".format(bhavcopy_table))
+                        with ZipFile("bhavcopy.sql.zip/{0}.sql.zip".format(bhavcopy_table), 'w',
+                                     ZIP_DEFLATED) as sql_zip:
+                            sql_zip.write("bhavcopy.sql.zip/{0}.sql".format(bhavcopy_table),
+                                          "{}.sql".format(bhavcopy_table))
+                        os.remove("bhavcopy.sql.zip/{0}.sql".format(bhavcopy_table))
+
                 except InternalError as int_err:
                     print(int_err)
+            # drop the temp year tables
+            cursor.execute("drop table bhavcopy_{};".format(1000))
+            cursor.execute("drop table bhavcopy_{};".format(3000))
 
     def get_data_of_git(self):
         with self.__connection.cursor() as cursor:
@@ -172,11 +200,7 @@ class BhavDB:
                 cursor.execute("use bhavdata;")
                 bhavcopy_sql_zip_files = glob.glob("bhavcopy.sql.zip/*.zip")
                 for bhavcopy_sql_zip_file in bhavcopy_sql_zip_files:
-                    bhavcopy_sql_zip = ZipFile(bhavcopy_sql_zip_file)
-                    file_zip_info: ZipInfo = bhavcopy_sql_zip.filelist[0]
-                    print(file_zip_info.filename)
-                    bhavcopy_sql_zip.extract(file_zip_info.filename, "mariadb.bhav/data/bhavdata")
-                    bhavcopy_sql_zip.close()
+                    file_zip_info: ZipInfo = BhavDB._extract_sql_to_bhavdata_dir(bhavcopy_sql_zip_file)
                     (table_name, year) = re.search("(bhavcopy_(\d{4}))", file_zip_info.filename).groups()
                     self._create_year_table(int(year))
                     cursor.execute("load data infile '{}' into table {};".format(file_zip_info.filename, table_name))
