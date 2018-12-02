@@ -11,7 +11,7 @@ class CSVNotFoundInZipError(Exception):
 class BhavFiles:
     def __init__(self, file_folder: str):
         self._zip_files = glob.glob(file_folder+ "cm*bhav.csv.zip")
-        self._logger = open("bhav_file.log", "w")
+        self._logger = open("./logs/bhav_file.log", "w")
 
     def __del__(self):
         self._logger.close()

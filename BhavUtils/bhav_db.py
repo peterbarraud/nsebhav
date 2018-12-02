@@ -1,7 +1,7 @@
 import glob
 from zipfile import ZipFile, ZIP_DEFLATED, ZipInfo
 # import pymysql
-from pymysql import Connect, ProgrammingError, cursors, InternalError, IntegrityError, DataError
+from pymysql import Connect, ProgrammingError, cursors, InternalError, IntegrityError, DataError, OperationalError
 import calendar
 from datetime import date, timedelta
 import re
@@ -12,6 +12,9 @@ import os
 class BadDatabaseFilesError(Exception):
     pass
 
+class DBConnectionError(Exception):
+    pass
+
 
 class BadTimestampYearError(Exception):
     pass
@@ -19,16 +22,19 @@ class BadTimestampYearError(Exception):
 
 class BhavDB:
     def __init__(self, mysqldb='bhavdata'):
-        self.__connection = Connect(host='localhost', user='root', password='',
-                                     db=mysqldb, charset='utf8mb4', cursorclass=cursors.DictCursor)
-        with self.__connection.cursor() as cursor:
-            tables_sql = "SELECT table_name FROM information_schema.tables where table_schema = 'bhavdata';"
-            cursor.execute(tables_sql)
-            self._bhavcopy_tables = [t['table_name'] for t in cursor.fetchall()]
-        if not path.exists("./logs"):
-            os.mkdir("./logs")
-        self._logger = open("./logs/bhav_db.log", "w")
-        self._month_dict = {v.upper(): k for k,v in enumerate(calendar.month_abbr)}
+        try:
+            self.__connection = Connect(host='localhost', user='root', password='',
+                                         db=mysqldb, charset='utf8mb4', cursorclass=cursors.DictCursor)
+            with self.__connection.cursor() as cursor:
+                tables_sql = "SELECT table_name FROM information_schema.tables where table_schema = 'bhavdata';"
+                cursor.execute(tables_sql)
+                self._bhavcopy_tables = [t['table_name'] for t in cursor.fetchall()]
+            if not path.exists("./logs"):
+                os.mkdir("./logs")
+            self._logger = open("./logs/bhav_db.log", "w")
+            self._month_dict = {v.upper(): k for k,v in enumerate(calendar.month_abbr)}
+        except OperationalError as op_err:
+            raise DBConnectionError(op_err)
 
     # get the first nse bhav date in recorded history
     # return: date
@@ -79,7 +85,6 @@ class BhavDB:
         create_table_sql += "timestamp date,"
         create_table_sql += "primary key(symbol, series, timestamp)"
         create_table_sql += ");"
-        print(create_table_sql)
         with self.__connection.cursor() as cursor:
             cursor.execute(create_table_sql)
 
