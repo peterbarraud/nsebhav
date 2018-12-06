@@ -1,10 +1,9 @@
 import glob
 from zipfile import ZipFile, ZIP_DEFLATED, ZipInfo
-# import pymysql
 from pymysql import Connect, ProgrammingError, cursors, InternalError, IntegrityError, DataError, OperationalError
 import calendar
 from datetime import date, timedelta
-import re
+from re import search
 from os import path
 import os
 
@@ -36,12 +35,27 @@ class BhavDB:
         except OperationalError as op_err:
             raise DBConnectionError(op_err)
 
+    def __del__(self):
+        try:
+            self.__connection.commit()
+            self.__connection.close()
+            self._logger.close()
+        except Exception as err:
+            pass
+
+
     # get the first nse bhav date in recorded history
     # return: date
     @property
     def the_first_date(self) -> date:
-        first_date = date(1994, 11, 3)
-        return first_date
+        with self.__connection.cursor() as cursor:
+            sql_statement = "SELECT min(table_name) first_year_table FROM information_schema.tables where table_name like 'bhavcopy_%';"
+            cursor.execute(sql_statement)
+            result = cursor.fetchone()
+            sql_statement = "select min(timestamp) the_first_date from {}".format(result['first_year_table'])
+            cursor.execute(sql_statement)
+            result = cursor.fetchone()
+            return result['the_first_date']
 
     @property
     def last_saved_date(self) -> date:
@@ -88,11 +102,7 @@ class BhavDB:
         with self.__connection.cursor() as cursor:
             cursor.execute(create_table_sql)
 
-    def __del__(self):
-        self.__connection.commit()
-        self.__connection.close()
-        self._logger.close()
-
+    # TODO: Is this required. Seems like mysql and python datetime work fine!
     def _get_mysql_date(self, timestamp):
         time_parts = timestamp.split("-")
         year = time_parts[2]
@@ -144,6 +154,23 @@ class BhavDB:
             except InternalError as interal_err:
                 self._log_err(row, interal_err, zip_file_name)
 
+    def insert_holiday_data(self, row: dict):
+        try:
+            with self.__connection.cursor() as cursor:
+                cursor.execute(
+                    "insert into nse_holidays_temp (`holiday`, `timestamp`) values('{}', '{}')".format(row['reason'],
+                                                                                                  row['timestamp']))
+        except IntegrityError as integrity_err:
+            # IMPORTANT: In the off chance that two holidays fall on the same day,
+            # we'll just take the first and let the second fall thru
+            if "(1062, \"Duplicate entry '{}\' for key 'PRIMARY'\")".format(row['timestamp']) in str(integrity_err):
+                pass
+
+    def holidays_by_year(self, year):
+        with self.__connection.cursor() as cursor:
+            cursor.execute("select * from nse_holidays where year(timestamp) = {};".format(year))
+            return cursor.fetchall()
+
     @staticmethod
     def _extract_sql_to_bhavdata_dir(zip_file_name) -> ZipInfo:
         bhavcopy_sql_zip = ZipFile(zip_file_name)
@@ -155,7 +182,7 @@ class BhavDB:
 
     def prepare_data_for_git(self):
         with self.__connection.cursor() as cursor:
-            bhavcopy_zip_dict = {re.search("(bhavcopy_\d{4})", bhavcopy_sql_zip_file).groups()[0] : bhavcopy_sql_zip_file for bhavcopy_sql_zip_file in glob.glob("bhavcopy.sql.zip/*.sql.zip")}
+            bhavcopy_zip_dict = {search("(bhavcopy_\d{4})", bhavcopy_sql_zip_file).groups()[0] : bhavcopy_sql_zip_file for bhavcopy_sql_zip_file in glob.glob("bhavcopy.sql.zip/*.sql.zip")}
             # let's create two temp year tables - one for pre-2011 and one for post (after total trades was added)
             self._create_year_table(1000)
             self._create_year_table(3000)   # of course, we're assuming this prog will not be used in year 3000 :)
@@ -164,7 +191,7 @@ class BhavDB:
                 try:
                     # create a temp 1000 year table
                     temp_year_table = None
-                    result = re.search("\d{4}", bhavcopy_table)
+                    result = search("\d{4}", bhavcopy_table)
                     if int(result.group()) >= 2011:
                         temp_year_table = "bhavcopy_{}".format(3000)
                     else:
@@ -198,6 +225,10 @@ class BhavDB:
             cursor.execute("drop table bhavcopy_{};".format(1000))
             cursor.execute("drop table bhavcopy_{};".format(3000))
 
+            # zip back-up of nse_holidays table
+            cursor.execute(
+                "select * into outfile '../../bhavcopy.sql.zip/nse_holidays.sql' from nse_holidays;")
+
     def get_data_of_git(self):
         with self.__connection.cursor() as cursor:
             try:
@@ -206,12 +237,41 @@ class BhavDB:
                 bhavcopy_sql_zip_files = glob.glob("bhavcopy.sql.zip/*.zip")
                 for bhavcopy_sql_zip_file in bhavcopy_sql_zip_files:
                     file_zip_info: ZipInfo = BhavDB._extract_sql_to_bhavdata_dir(bhavcopy_sql_zip_file)
-                    (table_name, year) = re.search("(bhavcopy_(\d{4}))", file_zip_info.filename).groups()
+                    (table_name, year) = search("(bhavcopy_(\d{4}))", file_zip_info.filename).groups()
                     self._create_year_table(int(year))
                     cursor.execute("load data infile '{}' into table {};".format(file_zip_info.filename, table_name))
                     os.remove("mariadb.bhav/data/bhavdata/{}".format(file_zip_info.filename))
             except ProgrammingError as prog_err:
                 print(prog_err)
+
+    @staticmethod
+    def _is_holiday(day, cursor) -> bool:
+        if day.strftime("%a").upper() in ['SAT', 'SUN']:
+            return True
+        else:
+            cursor.execute("select count(timestamp) holiday_count from nse_holidays_temp where timestamp = '{}'".format(day))
+            # x = cursor.fetchone()
+            return int(cursor.fetchone()['holiday_count']) == 1
+
+    @property
+    def no_bhav_days(self):
+        count = 0
+        day = self.the_first_date
+        with self.__connection.cursor() as cursor:
+            bhav_days = []
+            for bhavcopy_table in self._bhavcopy_tables:
+                result = search("\d{4}", bhavcopy_table)
+                cursor.execute("select distinct(timestamp) as bhavdate from {};".format(bhavcopy_table))
+                for row in cursor.fetchall():
+                    bhav_days.append(row['bhavdate'])
+            while self.the_first_date <= day <= self.last_saved_date:
+                print(day)
+                if day not in bhav_days and not BhavDB._is_holiday(day, cursor):
+                    print("a real holiday")
+                    self._logger.write(day.strftime("%a-%d-%b-%Y").upper() + "\n")
+                day = day + timedelta(1)
+                print("x"*30)
+        print(count)
 
 
 # this is a package class but we've got the main function in here only for testing purposes

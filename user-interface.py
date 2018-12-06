@@ -1,12 +1,9 @@
 from BhavUtils.bhav_db import BhavDB, DBConnectionError
 from BhavUtils.bhav_data_files import BhavFiles
-from BhavUtils.bhav_data_files import BhavFiles
-import glob
+from BhavUtils.nse_holidays import NseHolidays
 from os import stat
 from stat import *
 import glob
-from zipfile import ZipFile, ZIP_DEFLATED, BadZipFile
-import os
 
 def store_bhav_data(bhav_dir):
 
@@ -43,10 +40,30 @@ def last_saved_date():
     bhav_db = BhavDB()
     print(bhav_db.last_saved_date)
 
+def the_first_date():
+    bhav_db = BhavDB()
+    print(bhav_db.the_first_date)
+
+def no_bhav_days():
+    bhav_db = BhavDB()
+    bhav_db.no_bhav_days
+
+
+def store_nse_holidays():
+    nse_holidays = NseHolidays()
+    bhav_db = BhavDB()
+    holiday_list = nse_holidays.holidays
+    holiday: dict
+    for holiday in holiday_list:
+        bhav_db.insert_holiday_data(holiday)
+
+def get_year_holidays():
+    bhav_db = BhavDB()
+    print(bhav_db.holidays_by_year(2017))
 
 def main():
     try:
-        prepare_data_for_git()
+      store_bhav_data(r'C:\Users\barraud\Downloads\bhav\nsebhav\bhav_downloaded')
     except DBConnectionError as db_conn_err:
         print(db_conn_err)
     # prepare_data_for_git()
