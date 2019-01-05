@@ -2,16 +2,24 @@ from zipfile import ZipFile
 from zipfile import BadZipFile
 import csv
 import glob
+import os
 
 
 class CSVNotFoundInZipError(Exception):
     pass
 
+class BhavDownloadedFolderNotFound(Exception):
+    pass
 
 class BhavFiles:
-    def __init__(self, file_folder: str):
-        self._zip_files = glob.glob(file_folder+ "cm*bhav.csv.zip")
+    def __init__(self):
         self._logger = open("./logs/bhav_file.log", "w")
+        if not os.path.exists("bhav_downloaded"):
+            raise BhavDownloadedFolderNotFound("Folder not found."
+                                               "The downloaded bhav files must exist in a folder"
+                                               "bhav_downloaded in the root project folder."
+                                               "At the same level as user-interface.py")
+        self._zip_files = glob.glob("bhav_downloaded/cm*bhav.csv.zip")
 
     def __del__(self):
         self._logger.close()

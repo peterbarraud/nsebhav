@@ -68,6 +68,17 @@ class BhavDB:
             result = cursor.fetchone()
             return result['last_saved_date']
 
+    @property
+    def unsaved_dates_till_today(self) -> list:
+        unsaved_dates = []
+        unsaved_date: date = self.last_saved_date
+        while (unsaved_date <= date.today()):
+            if unsaved_date.strftime("%a").upper() not in ['SAT', 'SUN']:
+                print(unsaved_date.strftime("%d-%m-%Y"))
+                unsaved_dates.append(unsaved_date)
+            unsaved_date += timedelta(1)
+            unsaved_date += timedelta(1)
+
     def _log_err(self, row:dict, err:Exception, zip_file_name:str):
         self._logger.write("Error: {}\n".format(str(err)))
         self._logger.write("For: (Symbol: {}; Series: {}; Timestamp: {})\n".format(row['SYMBOL'], row['SERIES'], row['TIMESTAMP']))
@@ -102,13 +113,12 @@ class BhavDB:
         with self.__connection.cursor() as cursor:
             cursor.execute(create_table_sql)
 
-    # TODO: Is this required. Seems like mysql and python datetime work fine!
-    def _get_mysql_date(self, timestamp):
+    def _get_row_date(self, timestamp) -> date:
         time_parts = timestamp.split("-")
-        year = time_parts[2]
-        month = str(self._month_dict[time_parts[1]]).zfill(2)
-        day = str(time_parts[0]).zfill(2)
-        return year + "-" + month + "-" + day
+        year = int(time_parts[2])
+        month = int(self._month_dict[time_parts[1]])
+        day = int(time_parts[0])
+        return date(year, month, day)
 
 
     @property
@@ -117,18 +127,19 @@ class BhavDB:
             with self.__connection.cursor() as cursor:
                 cursor.execute("select count(*) bhavcount from {}".format(bhavcopy_table))
                 count_result = cursor.fetchone()
-                result = re.search("\d{4}", bhavcopy_table)
+                result = search("\d{4}", bhavcopy_table)
                 yield result.group(), count_result['bhavcount']
 
     def insert_bhav_row(self, row: dict, zip_file_name: str):
-        bhavcopy_table = "bhavcopy_{}".format(row['TIMESTAMP'][-4:])
+        row_date:date = self._get_row_date(row['TIMESTAMP'])
+        bhavcopy_table = "bhavcopy_{}".format(row_date.year)
         field_sql_list: str = ""
         value_sql_list:str = ""
         for field_name, value in row.items():
             if field_name.strip() != "":
                 field_sql_list += field_name + ", "
                 if field_name == 'TIMESTAMP':
-                    value_sql_list += "'" + self._get_mysql_date(value) + "', "
+                    value_sql_list += "'" + str(row_date) + "', "
                 else:
                     value_sql_list += "'" + value + "', "
         field_sql_list = field_sql_list.strip(", ")
@@ -137,13 +148,13 @@ class BhavDB:
         with self.__connection.cursor() as cursor:
             try:
                 if bhavcopy_table not in self._bhavcopy_tables:
-                    self.create_year_table(row['TIMESTAMP'])
+                    self._create_year_table(row_date.year)
                     self._bhavcopy_tables.append(bhavcopy_table)
                 cursor.execute(sql_insert)
             except IntegrityError as integrity_err:
                 # IMPORTANT: Rather than check, we're just going to let the db fail on duplicates
                 # and then not log the duplicate error
-                if "(1062, \"Duplicate entry '" + row['SYMBOL'] + "-" + row['SERIES'] + "-" + self._get_mysql_date(row['TIMESTAMP']) + "\' for key 'PRIMARY'\")" in str(integrity_err):
+                if "(1062, \"Duplicate entry '" + row['SYMBOL'] + "-" + row['SERIES'] + "-" + row_date.strftime("%Y-%m-%d") + "\' for key 'PRIMARY'\")" in str(integrity_err):
                     pass
                 else:
                     self._log_err(row, integrity_err, zip_file_name)
@@ -272,13 +283,3 @@ class BhavDB:
                 day = day + timedelta(1)
                 print("x"*30)
         print(count)
-
-
-# this is a package class but we've got the main function in here only for testing purposes
-def main():
-    bhav_db = BhavDB()
-    bhav_db.last_saved_date()
-
-
-if __name__ == '__main__':
-    main()
