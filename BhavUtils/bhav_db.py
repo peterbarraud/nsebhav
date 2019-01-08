@@ -113,6 +113,29 @@ class BhavDB:
         with self.__connection.cursor() as cursor:
             cursor.execute(create_table_sql)
 
+    def keep_only_eq_data(self):
+        sql = "select column_name, table_name from information_schema.columns where  table_schema = 'bhavdata';"
+        with self.__connection.cursor() as cursor:
+            cursor.execute(sql)
+            tables = {}
+            for row in cursor.fetchall():
+                if tables.get(row['table_name'], 0) == 0:
+                    columns = []
+                else:
+                    columns = tables[row['table_name']]
+                if row['column_name'] != 'series':
+                    columns.append(row['column_name'])
+                tables[row['table_name']] = columns
+            for table in tables:
+                print("doing {}".format(table))
+                cursor.execute("CREATE TEMPORARY TABLE {table}_temp select {columns} from {table} where series = 'EQ';".format(table=table, columns=",".join(tables[table])))
+                cursor.execute("drop table {};".format(table))
+                cursor.execute("CREATE TABLE {table} select {columns} from {table}_temp;".format(table=table, columns=",".join(tables[table])))
+                cursor.execute("ALTER TABLE {} ADD PRIMARY KEY(symbol,timestamp);".format(table))
+                cursor.execute("drop table {}_temp;".format(table))
+                print("done {}!!".format(table))
+
+
     def _get_row_date(self, timestamp) -> date:
         time_parts = timestamp.split("-")
         year = int(time_parts[2])
@@ -213,9 +236,9 @@ class BhavDB:
                         file_zip_info: ZipInfo = self._extract_sql_to_bhavdata_dir(bhavcopy_zip_dict[bhavcopy_table])
                         cursor.execute("truncate table {};".format(temp_year_table))
                         cursor.execute("load data infile '{}' into table {};".format(file_zip_info.filename, temp_year_table))
-                        cursor.execute("SELECT symbol, series, timestamp FROM " \
-                            "(SELECT symbol, series, timestamp FROM {} UNION ALL SELECT symbol, series, timestamp FROM {}) tbl " \
-                            "GROUP BY symbol, series, timestamp HAVING count(*) = 1 ORDER BY symbol, series, timestamp;".format(bhavcopy_table, temp_year_table))
+                        cursor.execute("SELECT symbol, timestamp FROM " \
+                            "(SELECT symbol, timestamp FROM {} UNION ALL SELECT symbol, timestamp FROM {}) tbl " \
+                            "GROUP BY symbol, timestamp HAVING count(*) = 1 ORDER BY symbol, timestamp;".format(bhavcopy_table, temp_year_table))
                         table_diff = cursor.fetchone()
                         if table_diff:
                             make_zip = True
@@ -237,8 +260,8 @@ class BhavDB:
             cursor.execute("drop table bhavcopy_{};".format(3000))
 
             # zip back-up of nse_holidays table
-            cursor.execute(
-                "select * into outfile '../../bhavcopy.sql.zip/nse_holidays.sql' from nse_holidays;")
+            # cursor.execute(
+            #     "select * into outfile '../../bhavcopy.sql.zip/nse_holidays.sql' from nse_holidays;")
 
     def get_data_of_git(self):
         with self.__connection.cursor() as cursor:

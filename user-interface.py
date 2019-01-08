@@ -73,13 +73,15 @@ def get_year_holidays():
     bhav_db = BhavDB()
     print(bhav_db.holidays_by_year(2017))
 
+def keep_only_eq_data():
+    bhav_db = BhavDB()
+    bhav_db.keep_only_eq_data()
 
 def main():
     try:
         prepare_data_for_git()
     except DBConnectionError as db_conn_err:
         print(db_conn_err)
-    # prepare_data_for_git()
 
 
 if __name__ == '__main__':
